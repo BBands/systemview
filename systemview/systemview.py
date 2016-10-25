@@ -61,6 +61,7 @@ class View(object):
         self.winPct = 0         # # wins / # losses
         self.prftFact = 0       # size of winners versus losers
         self.averages = []      # average win and loss
+        self.expectancy = 0     # average win and loss
         self.gains = []         # total and annual gains
         self.drawdowns = []     # list of drawdowns
         self.regret = 0         # regret is the % of time in drawdown
@@ -164,6 +165,7 @@ class View(object):
         avgWin = sum(self.wins) / len(self.wins)
         avgLoss = abs(sum(self.losses) / len(self.losses))
         self.prftFact = avgWin / avgLoss
+        self.expectancy = self.winPct * self.prftFact - (1-self.winPct)
 
     def calcReturns(self):
         """Calculate returns from trades."""
@@ -384,13 +386,14 @@ class View(object):
         print("There were {0} trades.".format(len(self.trades)))
         print("There were {0} winners.".format(len(self.wins)))
         print("There were {0} losers.".format(len(self.losses)))
-        print("The winning % =     {0:.2f}%".format(self.winPct*100))
-        print("The average win =   {0:.2f}%".format(self.averages[0][0]*100))
-        print("The average loss =  {0:.2f}%".format(self.averages[0][1]*100))
-        print("The profit factor = {0:.2f}".format(self.prftFact))
-        print("The total gain =    {0:.2f}%".format(self.gains[0][0]*100))
-        print("The annual gain =   {0:.2f}%".format(self.gains[0][1]*100))
-        print("Regret =            {0:.2f}%".format(self.regret*100))
+        print("Winning % =      {0:.2f}%".format(self.winPct*100))
+        print("Average win =    {0:.2f}%".format(self.averages[0][0]*100))
+        print("Average loss =   {0:.2f}%".format(self.averages[0][1]*100))
+        print("Profit factor =  {0:.2f}".format(self.prftFact))
+        print("Expectancy =     {0:.2f}".format(self.expectancy))
+        print("Total gain =     {0:.2f}%".format(self.gains[0][0]*100))
+        print("Annual gain =    {0:.2f}%".format(self.gains[0][1]*100))
+        print("Regret =         {0:.2f}%".format(self.regret*100))
         print
 
 if __name__ == '__main__':
