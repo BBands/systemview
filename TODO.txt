@@ -1,0 +1,18 @@
+SystemView to do list.
+
+Add price graph with trade markers.
+
+Add 3D visualizations.
+	SystemView plots trading system metrics
+    x-axis = # wins / # losses
+    y-axis = avg size of wins / avg size of losses
+    z-axis =
+
+Add import capabilities
+	Amibroker first
+
+Add Yahoo data import
+	via numpy, matplotlib or other?
+	
+Discuss use of pandas?
+
