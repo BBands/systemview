@@ -1,18 +1,13 @@
 #!/usr/bin/env python
 """
 DESCRIPTION
+    SystemView: Dispaly trading system metrics
 
-    SystemView plots trading system metrics
-        x-axis = # wins / # losses
-        y-axis = avg size of wins / avg size of losses
-        z-axis =
 AUTHOR
-
     SystemView: John Bollinger <BBands@BollingerBands.com>
 
 TODO
-
-    Add logic for short positions
+    Please see the TODO file
 """
 
 # do division as expected and use 3.n print formatting
@@ -221,6 +216,25 @@ class View(object):
                     if self.myData[j][8] == -1: # exit
                         self.inTradeVol.append([self.myData[i][0], vol / count])
                         break
+
+    def displayPriceGraph(self):
+        """Display a graph of price."""
+        curve = [row[4] for row in self.myData] # extract data to be plotted
+        dates = [row[0] for row in self.myData]
+        fig, ax = plt.subplots()
+        fig.suptitle("John Bollinger's Trade Visualization")
+        ax.set_ylabel("price (log-scale)")
+        ax.semilogy(dates, curve)
+        # minor tick labels for log y-axis
+        ax.yaxis.set_major_formatter(FormatStrFormatter("%d "))
+        ax.yaxis.set_minor_formatter(FormatStrFormatter("%d "))
+        ax.set_ylim(top=np.max(curve))
+        ax.set_ylim(bottom=np.min(curve))
+        ax.grid(True)
+        ax.xaxis.set_major_locator(mdates.YearLocator(5)) # every 5 years
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+        fig.autofmt_xdate()
+        plt.show()
 
     def displayTradeGraph(self):
         """Display a graph of the trades."""
@@ -433,6 +447,9 @@ if __name__ == '__main__':
     if param.verbose:
         print("First trade {0}, {1:.2f}%".format(a.trades[1][0].isoformat(), a.trades[1][1] * 100))
         print("Last trade  {0}, {1:.2f}%".format(a.trades[-1][0].isoformat(), a.trades[-1][1] * 100))
+    # show a plot of price with trade markers
+    if param.displayPriceGraph:
+        a.displayPriceGraph()
     # show a plot of all trades
     if param.displayTradeGraph:
         a.displayTradeGraph()

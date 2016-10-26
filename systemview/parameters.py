@@ -1,5 +1,6 @@
 """
-Parameters for the SystemView program
+Parameters for the SystemView
+trading statistics display program
 """
 # file names
 file1 = "spx.csv"
@@ -12,6 +13,8 @@ verbose = True
 start = "1960-01-01"
 endDate = "1970-01-01"
 # visualizations to display
+# show a plot of price
+displayPriceGraph = True
 # show a plot of all trades
 displayTradeGraph = True
 # show a plot ot trades versus time
