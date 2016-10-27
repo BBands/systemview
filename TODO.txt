@@ -1,7 +1,5 @@
 SystemView to do list.
 
-Add price graph with trade markers.
-
 Add 3D visualizations.
 	SystemView plots trading system metrics
     x-axis = # wins / # losses

@@ -236,6 +236,38 @@ class View(object):
         fig.autofmt_xdate()
         plt.show()
 
+    def displayPriceTradesGraph(self, distance):
+        """Display a graph of price."""
+        curve = [row[4] for row in self.myData] # extract data to be plotted
+        dates = [row[0] for row in self.myData] # extract dates to be plotted
+        trades = [row[8] for row in self.myData] # extract trades to be plotted
+        upper = [x * (1 + distance) for x in curve] # anchor for sell markers
+        lower = [x / (1 + distance) for x in curve] # anchor for buy markers
+        buys, sells = [], [] # lists of buys and sells
+        i = 0
+        for b in trades: # parse trades into indexed buys and sells
+            if b == 1:
+                buys.append(i)
+            elif b == -1:
+                sells.append(i)
+            i += 1
+        fig, ax = plt.subplots()
+        fig.suptitle("John Bollinger's Trade Visualization")
+        ax.set_ylabel("price with trade markers (log-scale)")
+        ax.semilogy(dates, curve)
+        ax.semilogy(dates, lower, 'g^', markevery=buys)
+        ax.semilogy(dates, upper, 'rv', markevery=sells)
+        # minor tick labels for log y-axis
+        ax.yaxis.set_major_formatter(FormatStrFormatter("%d "))
+        ax.yaxis.set_minor_formatter(FormatStrFormatter("%d "))
+        ax.set_ylim(top=np.max(curve) * (1 + distance))
+        ax.set_ylim(bottom=np.min(curve) / (1 + distance))
+        ax.grid(True)
+        ax.xaxis.set_major_locator(mdates.YearLocator(5)) # every 5 years
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+        fig.autofmt_xdate()
+        plt.show()
+
     def displayTradeGraph(self):
         """Display a graph of the trades."""
         y = [row[1] for row in self.trades] # extract data to be plotted
@@ -450,6 +482,8 @@ if __name__ == '__main__':
     # show a plot of price with trade markers
     if param.displayPriceGraph:
         a.displayPriceGraph()
+    if param.displayPriceTradesGraph:
+        a.displayPriceTradesGraph(param.distance)
     # show a plot of all trades
     if param.displayTradeGraph:
         a.displayTradeGraph()
@@ -480,3 +514,5 @@ if __name__ == '__main__':
     # show a graph of in-trade volatility
     if param.displayInTradeVol:
         a.displayInTradeVol()
+
+# That's all folks!

@@ -15,6 +15,10 @@ endDate = "1970-01-01"
 # visualizations to display
 # show a plot of price
 displayPriceGraph = True
+# show a plot of price
+displayPriceTradesGraph = True
+# distance in percent from price fro signal markers
+distance = 0.2
 # show a plot of all trades
 displayTradeGraph = True
 # show a plot ot trades versus time
