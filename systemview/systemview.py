@@ -28,6 +28,10 @@ import parameters as param
 __author__ = "John Bollinger"
 __version__ = "0.1"
 
+# range/xrange patch for python 2 and 3 compatibility
+if sys.version_info >= (3, 0):
+    def xrange(*args, **kwargs):
+        return iter(range(*args, **kwargs))
 
 def yahoo_to_iso_date(date):
     """Convert Yahoo!'s date to datetime object."""
