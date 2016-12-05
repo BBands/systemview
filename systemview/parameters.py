@@ -12,6 +12,8 @@ verbose = True
 # start and end dates "yyyy-mm-dd"
 start = "1960-01-01"
 endDate = "1970-01-01"
+# true to have summary stats in window
+resultsTk = True
 # visualizations to display
 # show a plot of price
 displayPriceGraph = True

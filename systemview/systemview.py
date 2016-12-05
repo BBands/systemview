@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt                     # pyplot
 import matplotlib.dates as mdates                   # dates for pyplot
 from matplotlib.ticker import FormatStrFormatter    # format graph axes
 from dateutil.relativedelta import relativedelta    # date math
+from Tkinter import *                               # text window
 # import our system variables from parameters.py
 import parameters as param
 
@@ -446,6 +447,33 @@ class View(object):
         print("Regret =         {0:.2f}%".format(self.regret*100))
         print
 
+    def printResultsTk(self):
+        """Print a table of summary results to a Tkinter window."""
+        root = Tk()
+        root.title("SystemView")
+        TextBox = Text(root, height = 13, width = 30)
+        TextBox.pack()
+        class writeTk(object):
+            def write(self, s):
+                TextBox.insert(END, s)
+        backup = sys.stdout
+        sys.stdout = writeTk()
+        print("First trade {0}, {1:.2f}%".format(a.trades[1][0].isoformat(), a.trades[1][1] * 100))
+        print("Last trade  {0}, {1:.2f}%".format(a.trades[-1][0].isoformat(), a.trades[-1][1] * 100))
+        print("There were {0} trades.".format(len(self.trades)))
+        print("There were {0} winners.".format(len(self.wins)))
+        print("There were {0} losers.".format(len(self.losses)))
+        print("Winning % =      {0:.2f}%".format(self.winPct*100))
+        print("Average win =    {0:.2f}%".format(self.averages[0][0]*100))
+        print("Average loss =   {0:.2f}%".format(self.averages[0][1]*100))
+        print("Profit factor =  {0:.2f}".format(self.prftFact))
+        print("Expectancy =     {0:.2f}".format(self.expectancy))
+        print("Total gain =     {0:.2f}%".format(self.gains[0][0]*100))
+        print("Annual gain =    {0:.2f}%".format(self.gains[0][1]*100))
+        print("Regret =         {0:.2f}%".format(self.regret*100))
+        sys.stdout = backup
+        TextBox.mainloop()
+
 if __name__ == '__main__':
     # create an instance of our class
     a = View()
@@ -478,6 +506,9 @@ if __name__ == '__main__':
     # calculate summary data
     a.calcSummaryData()
     # print some summary data
+    if param.resultsTk:
+        a.printResultsTk()
+    # results to sommand line interface
     a.printResults()
     # debug print first and last trade
     if param.verbose:
