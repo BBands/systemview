@@ -21,7 +21,10 @@ import matplotlib.pyplot as plt                     # pyplot
 import matplotlib.dates as mdates                   # dates for pyplot
 from matplotlib.ticker import FormatStrFormatter    # format graph axes
 from dateutil.relativedelta import relativedelta    # date math
-from Tkinter import *                               # text window
+try:                                                # Tkinter for Python2
+    import Tkinter as tk
+except ImportError:                                 # tkinter for Python3
+    import tkinter as tk
 # import our system variables from parameters.py
 import parameters as param
 
@@ -449,13 +452,13 @@ class View(object):
 
     def printResultsTk(self):
         """Print a table of summary results to a Tkinter window."""
-        root = Tk()
+        root = tk.Tk()
         root.title("SystemView")
-        TextBox = Text(root, height = 13, width = 30)
+        TextBox = tk.Text(root, height = 13, width = 30)
         TextBox.pack()
         class writeTk(object):
             def write(self, s):
-                TextBox.insert(END, s)
+                TextBox.insert(tk.END, s)
         backup = sys.stdout
         sys.stdout = writeTk()
         print("First trade {0}, {1:.2f}%".format(a.trades[1][0].isoformat(), a.trades[1][1] * 100))
